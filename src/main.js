@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/components/HomePage.vue";
 import StartSite from "@/components/StartSite.vue";
 import ToastService from "primevue/toastservice";
+import './registerServiceWorker'
 
 const router =  createRouter({
     history: createWebHistory(),
