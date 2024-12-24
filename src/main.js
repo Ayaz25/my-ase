@@ -9,19 +9,19 @@ import ToastService from "primevue/toastservice";
 import './registerServiceWorker'
 
 const router =  createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('/my-ase/'),
     routes: [
         {
-            path: '/my-ase',
-            redirect: '/my-ase/startsite'
+            path: '/',
+            redirect: '/startsite'
         },
         {
-            path: '/my-ase/homepage/:userName',
+            path: '/homepage/:userName',
             name: 'homepage',
             component: HomePage,
         },
         {
-            path: '/my-ase/startsite',
+            path: '/startsite',
             name: 'startsite',
             component: StartSite
         }
