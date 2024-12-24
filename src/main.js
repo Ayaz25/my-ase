@@ -13,15 +13,15 @@ const router =  createRouter({
     routes: [
         {
             path: '/my-ase',
-            redirect: '/startsite'
+            redirect: '/my-ase/startsite'
         },
         {
-            path: '/homepage/:userName',
+            path: '/my-ase/homepage/:userName',
             name: 'homepage',
             component: HomePage,
         },
         {
-            path: '/startsite',
+            path: '/my-ase/startsite',
             name: 'startsite',
             component: StartSite
         }
