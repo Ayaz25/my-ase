@@ -12,8 +12,7 @@ const router =  createRouter({
     history: createWebHistory('/my-ase/'),
     routes: [
         {
-            path: '/',
-            redirect: '/startsite'
+            path: '/'
         },
         {
             path: '/homepage/:userName',
