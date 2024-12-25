@@ -1,33 +1,40 @@
 <script setup>
   import InputText from 'primevue/inputtext';
   import {Button} from "primevue";
-  import {ref} from "vue";
+  import {ref, defineEmits} from "vue";
   import {Toast} from "primevue";
   import {useToast} from "primevue/usetoast";
-  import router from "@/main";
 
   const userName = ref('')
   const toast = useToast()
+  /*eslint-disable*/
+
+  const emit = defineEmits(['showHomePage', 'setUserName'])
 
   function goToHomeWithUserName() {
     if (userName.value === '') {
       toast.add({severity: 'info', summary: 'Info', detail: 'Bitte geben Sie Ihre Name Ein', life: 3000 })
     }
     else {
-      router.push({name: 'homepage', params: {userName: userName.value}})
+      emit('showHomePage', true )
+      emit('setUserName', userName.value)
     }
   }
+
 </script>
 
 <template>
-  <h2 class="title"> Arbeitsstundenerfassung </h2>
-  <img class="start_image" src="../assets/StartBild.jpg"/>
-  <h4> Erfasse deine Arbeitszeiten mühelos <br> und behalte stets den Überblick </h4>
-  <InputText v-model="userName" placeholder="Username" class="user_input" type="text" />
   <div>
-    <Toast position="top-center" style="width: 80%;"/>
-    <Button @click="goToHomeWithUserName" label="Start" class="start_button" />
+    <h2 class="title"> Arbeitsstundenerfassung </h2>
+    <img class="start_image" src="../assets/StartBild.jpg"/>
+    <h4> Erfasse deine Arbeitszeiten mühelos <br> und behalte stets den Überblick </h4>
+    <InputText v-model="userName" placeholder="Username" class="user_input" type="text" />
+    <div>
+      <Toast position="top-center" style="width: 80%;"/>
+      <Button @click="goToHomeWithUserName" label="Start" class="start_button" />
+    </div>
   </div>
+  
 </template>
 
 <style scoped>

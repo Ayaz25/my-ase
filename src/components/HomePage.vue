@@ -1,6 +1,5 @@
 <script setup>
   import {onMounted, ref} from "vue";
-  import {useRoute} from "vue-router";
   import Accordion from 'primevue/accordion';
   import AccordionPanel from 'primevue/accordionpanel';
   import AccordionHeader from 'primevue/accordionheader';
@@ -13,9 +12,9 @@
   import 'primeicons/primeicons.css'
   import {Toast} from "primevue";
   import {useToast} from "primevue/usetoast";
+  import { defineProps, defineEmits } from "vue";
+  
   const toast = useToast()
-
-
   const userName = ref('')
   const showDialog = ref(false)
   const date = ref('')
@@ -24,10 +23,15 @@
   const pause = ref('')
   const workD = ref([])
   const workDaysGrouped = ref([])
+  const props = defineProps ({
+    name: String
+  })
+  const emit = defineEmits (['goToStartPage'])
+
 
   onMounted(() => {
-    const route = useRoute()
-    userName.value = route.params.userName
+    userName.value = props.name
+
     let workDayList = JSON.parse(localStorage.getItem(userName.value))
     if (workDayList) {
       workD.value = workDayList
@@ -160,14 +164,37 @@
    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
   }
 
+  function goBackToStartPage() {
+    emit('goToStartPage', false)
+  }
+
+  function removeUser() {
+    localStorage.removeItem(userName.value)
+    emit('goToStartPage', false)
+  }
+
 </script>
 
 <template>
   <div class="title">
-    <h3> {{ userName }} </h3>
+    <div class="title-container">
+      <div style="padding-top: 1.5rem;" @click="goBackToStartPage">
+        <span style="display: inline;" class="pi pi-home"></span>
+        <h6 style="display: inline; margin-left: 2px;">home</h6>
+      </div>
+      
+      <h3 style="padding-right: 5rem;"> {{ userName }} </h3>
+      <span @click="removeUser" style="padding-top: 1.5rem;" class="pi pi-trash"></span>
+    </div>
     <hr class="divider">
   </div>
-  <Dialog class="dialog-font" header="Zeitplanung" v-model:visible="showDialog" :modal="true" :closable="true" :style="{ width: '250px', fontFamily: 'sans-serif' }">
+  <Dialog 
+      class="dialog-font" 
+      header="Zeitplanung" 
+      v-model:visible="showDialog" 
+      :modal="true" 
+      :closable="true" 
+      :style="{ width: '250px', fontFamily: 'sans-serif' }">
     <div class="field">
       <label class="dialog-font" for="date">Datum</label>
       <Calendar id="date" v-model="date" dateFormat="dd.mm.yy" showIcon />
@@ -247,6 +274,11 @@
 </template>
 
 <style scoped>
+  .title-container {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+  }
   .title {
     position: fixed;
     background-color: white;
